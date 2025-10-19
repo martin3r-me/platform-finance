@@ -1,6 +1,6 @@
 {
-    "name": "martin3r/platform-organization",
-    "description": "Organization Module for Platform",
+    "name": "martin3r/platform-finance",
+    "description": "Finance Module for Platform",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,14 +11,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "Platform\\Organization\\": "src/",
-            "Platform\\Organization\\Database\\": "database/"
+            "Platform\\Finance\\": "src/",
+            "Platform\\Finance\\Database\\": "database/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Platform\\Organization\\OrganizationServiceProvider"
+                "Platform\\Finance\\FinanceServiceProvider"
             ]
         }
     },

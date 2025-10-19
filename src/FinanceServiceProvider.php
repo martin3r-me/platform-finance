@@ -1,58 +1,54 @@
 <?php
 
-namespace Platform\Organization;
+namespace Platform\Finance;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Platform\Organization\Console\Commands\SeedOrganizationData;
 use Platform\Core\PlatformCore;
 use Platform\Core\Routing\ModuleRouter;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class OrganizationServiceProvider extends ServiceProvider
+class FinanceServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         // Falls in Zukunft Artisan Commands o.ä. nötig sind, hier rein
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                SeedOrganizationData::class,
-            ]);
+            // Commands können hier hinzugefügt werden
         }
-        // Keine Services in Drip vorhanden
     }
 
     public function boot(): void
     {
         // Schritt 1: Config laden
-        $this->mergeConfigFrom(__DIR__.'/../config/organization.php', 'organization');
+        $this->mergeConfigFrom(__DIR__.'/../config/finance.php', 'finance');
         
         // Schritt 2: Existenzprüfung (config jetzt verfügbar)
         if (
-            config()->has('organization.routing') &&
-            config()->has('organization.navigation') &&
+            config()->has('finance.routing') &&
+            config()->has('finance.navigation') &&
             Schema::hasTable('modules')
         ) {
             PlatformCore::registerModule([
-                'key'        => 'organization',
-                'title'      => 'Organization',
-                'routing'    => config('organization.routing'),
-                'guard'      => config('organization.guard'),
-                'navigation' => config('organization.navigation'),
-                'sidebar'    => config('organization.sidebar'),
+                'key'        => 'finance',
+                'title'      => 'Finance',
+                'routing'    => config('finance.routing'),
+                'guard'      => config('finance.guard'),
+                'navigation' => config('finance.navigation'),
+                'sidebar'    => config('finance.sidebar'),
             ]);
         }
 
         // Schritt 3: Wenn Modul registriert, Routes laden
-        if (PlatformCore::getModule('organization')) {
-            ModuleRouter::group('organization', function () {
+        if (PlatformCore::getModule('finance')) {
+            ModuleRouter::group('finance', function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/guest.php');
             }, requireAuth: false);
 
-            ModuleRouter::group('organization', function () {
+            ModuleRouter::group('finance', function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
             });
         }
@@ -62,19 +58,19 @@ class OrganizationServiceProvider extends ServiceProvider
 
         // Schritt 5: Config veröffentlichen
         $this->publishes([
-            __DIR__.'/../config/organization.php' => config_path('organization.php'),
+            __DIR__.'/../config/finance.php' => config_path('finance.php'),
         ], 'config');
 
         // Schritt 6: Views & Livewire
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'organization');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'finance');
         $this->registerLivewireComponents();
     }
 
     protected function registerLivewireComponents(): void
     {
         $basePath = __DIR__ . '/Livewire';
-        $baseNamespace = 'Platform\\Organization\\Livewire';
-        $prefix = 'organization';
+        $baseNamespace = 'Platform\\Finance\\Livewire';
+        $prefix = 'finance';
 
         if (!is_dir($basePath)) {
             return;
@@ -97,7 +93,7 @@ class OrganizationServiceProvider extends ServiceProvider
                 continue;
             }
 
-            // organization.dashboard aus organization + dashboard.php
+            // finance.dashboard aus finance + dashboard.php
             $aliasPath = str_replace(['\\', '/'], '.', Str::kebab(str_replace('.php', '', $relativePath)));
             $alias = $prefix . '.' . $aliasPath;
 

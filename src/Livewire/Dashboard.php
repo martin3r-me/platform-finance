@@ -1,10 +1,8 @@
 <?php
 
-namespace Platform\Organization\Livewire;
+namespace Platform\Finance\Livewire;
 
 use Livewire\Component;
-use Platform\Organization\Models\OrganizationEntity;
-use Platform\Organization\Models\OrganizationEntityType;
 
 class Dashboard extends Component
 {
@@ -14,84 +12,49 @@ class Dashboard extends Component
         return $user && $user->currentTeam ? $user->currentTeam->id : null;
     }
 
-    public function getTotalEntitiesProperty(): int
+    public function getTotalAccountsProperty(): int
     {
         $teamId = $this->getTeamId();
         if (!$teamId) {
             return 0;
         }
-        return (int) OrganizationEntity::forTeam($teamId)->count();
+        // TODO: Implementiere Finance-Accounts Model
+        return 0;
     }
 
-    public function getActiveEntitiesProperty(): int
+    public function getActiveAccountsProperty(): int
     {
         $teamId = $this->getTeamId();
         if (!$teamId) {
             return 0;
         }
-        return (int) OrganizationEntity::forTeam($teamId)->active()->count();
+        // TODO: Implementiere Finance-Accounts Model
+        return 0;
     }
 
-    public function getRootEntitiesProperty(): int
+    public function getTotalTransactionsProperty(): int
     {
         $teamId = $this->getTeamId();
         if (!$teamId) {
             return 0;
         }
-        return (int) OrganizationEntity::forTeam($teamId)->whereNull('parent_entity_id')->count();
+        // TODO: Implementiere Finance-Transactions Model
+        return 0;
     }
 
-    public function getLeafEntitiesProperty(): int
-    {
-        $teamId = $this->getTeamId();
-        if (!$teamId) {
-            return 0;
-        }
-        // Leaf = keine Children
-        return (int) OrganizationEntity::forTeam($teamId)
-            ->whereDoesntHave('children')
-            ->count();
-    }
-
-    public function getRecentEntitiesProperty()
+    public function getRecentTransactionsProperty()
     {
         $teamId = $this->getTeamId();
         if (!$teamId) {
             return collect();
         }
-        return OrganizationEntity::forTeam($teamId)
-            ->with(['type', 'vsmSystem'])
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
-    }
-
-    public function getEntitiesByTypeProperty()
-    {
-        $teamId = $this->getTeamId();
-        if (!$teamId) {
-            return collect();
-        }
-
-        $types = OrganizationEntityType::getActiveOrdered();
-        $counts = OrganizationEntity::forTeam($teamId)
-            ->selectRaw('entity_type_id, COUNT(*) as aggregate_count')
-            ->groupBy('entity_type_id')
-            ->pluck('aggregate_count', 'entity_type_id');
-
-        return $types->map(function ($type) use ($counts) {
-            return (object) [
-                'id' => $type->id,
-                'name' => $type->name,
-                'icon' => $type->icon,
-                'count' => (int) ($counts[$type->id] ?? 0),
-            ];
-        });
+        // TODO: Implementiere Finance-Transactions Model
+        return collect();
     }
 
     public function render()
     {
-        return view('organization::livewire.dashboard')
+        return view('finance::livewire.dashboard')
             ->layout('platform::layouts.app');
     }
 }
