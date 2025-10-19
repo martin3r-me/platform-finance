@@ -32,25 +32,15 @@ return [
                     'route' => 'finance.dashboard',
                     'icon' => 'heroicon-o-home',
                 ],
-                'accounts' => [
-                    'title' => 'Konten',
-                    'route' => 'finance.accounts.index',
-                    'icon' => 'heroicon-o-credit-card',
+                'chart-of-accounts' => [
+                    'title' => 'Kontenplan',
+                    'route' => 'finance.chart-of-accounts.index',
+                    'icon' => 'heroicon-o-banknotes',
                 ],
-                'transactions' => [
-                    'title' => 'Transaktionen',
-                    'route' => 'finance.transactions.index',
-                    'icon' => 'heroicon-o-arrow-right-left',
-                ],
-                'budgets' => [
-                    'title' => 'Budgets',
-                    'route' => 'finance.budgets.index',
-                    'icon' => 'heroicon-o-chart-bar',
-                ],
-                'reports' => [
-                    'title' => 'Berichte',
-                    'route' => 'finance.reports.index',
-                    'icon' => 'heroicon-o-document-text',
+                'account-types' => [
+                    'title' => 'Kontenarten',
+                    'route' => 'finance.account-types.index',
+                    'icon' => 'heroicon-o-squares-2x2',
                 ],
             ],
         ],

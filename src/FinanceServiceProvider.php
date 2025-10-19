@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Platform\Core\PlatformCore;
 use Platform\Core\Routing\ModuleRouter;
+use Platform\Finance\Console\Commands\ImportChartOfAccounts;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -17,7 +18,9 @@ class FinanceServiceProvider extends ServiceProvider
     {
         // Falls in Zukunft Artisan Commands o.ä. nötig sind, hier rein
         if ($this->app->runningInConsole()) {
-            // Commands können hier hinzugefügt werden
+            $this->commands([
+                ImportChartOfAccounts::class,
+            ]);
         }
     }
 

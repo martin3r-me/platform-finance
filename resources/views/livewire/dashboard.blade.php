@@ -60,62 +60,55 @@
 
         <!-- Verteilung nach Typen + Neueste Transaktionen -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <x-ui-panel title="Konten Übersicht" subtitle="Nach Status gruppiert">
+            <x-ui-panel title="Konten nach Typ" subtitle="Nach Kontenart gruppiert">
                 <div class="space-y-2">
-                    <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-8 h-8 rounded-lg bg-[var(--ui-muted-5)] border border-[var(--ui-border)]/60 flex items-center justify-center text-xs font-semibold text-[var(--ui-secondary)]">
-                                @svg('heroicon-o-banknotes','w-4 h-4')
-                            </div>
-                            <div class="min-w-0">
-                                <div class="font-medium text-[var(--ui-secondary)] truncate">Girokonto</div>
-                                <div class="text-xs text-[var(--ui-muted)]">Aktiv</div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-2xl font-bold text-[var(--ui-secondary)]">{{ $this->activeAccounts }}</div>
-                        </div>
-                    </div>
-                    <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-8 h-8 rounded-lg bg-[var(--ui-muted-5)] border border-[var(--ui-border)]/60 flex items-center justify-center text-xs font-semibold text-[var(--ui-secondary)]">
-                                @svg('heroicon-o-banknotes','w-4 h-4')
-                            </div>
-                            <div class="min-w-0">
-                                <div class="font-medium text-[var(--ui-secondary)] truncate">Sparkonto</div>
-                                <div class="text-xs text-[var(--ui-muted)]">Aktiv</div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-2xl font-bold text-[var(--ui-secondary)]">0</div>
-                        </div>
-                    </div>
-                </div>
-            </x-ui-panel>
-
-            <x-ui-panel title="Neueste Transaktionen" subtitle="Top 5">
-                <div class="space-y-2">
-                    @php($recent = $this->recentTransactions)
-                    @forelse(($recent ?? collect())->take(5) as $transaction)
+                    @php($byType = $this->accountsByType)
+                    @forelse(($byType ?? collect())->take(5) as $row)
                         <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
                             <div class="flex items-center gap-3 min-w-0">
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <div class="w-8 h-8 rounded-lg bg-[var(--ui-muted-5)] border border-[var(--ui-border)]/60 flex items-center justify-center text-xs font-semibold text-[var(--ui-secondary)]">
+                                    @svg('heroicon-o-banknotes','w-4 h-4')
+                                </div>
                                 <div class="min-w-0">
-                                    <div class="font-medium text-[var(--ui-secondary)] truncate">{{ $transaction->description ?? 'Transaktion' }}</div>
-                                    <div class="text-xs text-[var(--ui-muted)]">
-                                        {{ $transaction->created_at?->format('d.m.Y H:i') ?? now()->format('d.m.Y H:i') }}
-                                    </div>
+                                    <div class="font-medium text-[var(--ui-secondary)] truncate">{{ $row->name }}</div>
+                                    <div class="text-xs text-[var(--ui-muted)]">{{ $row->code }}</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="text-sm font-bold text-[var(--ui-secondary)]">{{ number_format($transaction->amount ?? 0, 2) }} €</div>
+                                <div class="text-2xl font-bold text-[var(--ui-secondary)]">{{ $row->count }}</div>
                             </div>
                         </div>
                     @empty
-                        <div class="text-sm text-[var(--ui-muted)] p-4 text-center">Keine Transaktionen vorhanden.</div>
+                        <div class="text-sm text-[var(--ui-muted)] p-4 text-center">Keine Konten vorhanden.</div>
+                    @endforelse
+                </div>
+            </x-ui-panel>
+
+            <x-ui-panel title="Neueste Konten" subtitle="Top 5">
+                <div class="space-y-2">
+                    @php($recent = $this->recentAccounts)
+                    @forelse(($recent ?? collect())->take(5) as $account)
+                        <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-2 h-2 rounded-full {{ $account->is_active ? 'bg-green-500' : 'bg-gray-400' }}"></div>
+                                <div class="min-w-0">
+                                    <div class="font-medium text-[var(--ui-secondary)] truncate">{{ $account->name }}</div>
+                                    <div class="text-xs text-[var(--ui-muted)]">
+                                        {{ $account->number }}
+                                        @if($account->accountType)
+                                            • {{ $account->accountType->name }}
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <x-ui-badge variant="secondary" size="sm">{{ $account->created_at?->format('d.m.Y') }}</x-ui-badge>
+                        </div>
+                    @empty
+                        <div class="text-sm text-[var(--ui-muted)] p-4 text-center">Keine Konten vorhanden.</div>
                     @endforelse
                 </div>
             </x-ui-panel>
         </div>
     </x-ui-page-container>
+</x-ui-page>
 </x-ui-page>
