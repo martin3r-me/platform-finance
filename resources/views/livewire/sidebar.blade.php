@@ -25,7 +25,7 @@
         </a>
 
         {{-- Kontenplan --}}
-        <a href="#"
+        <a href="{{ route('finance.chart-of-accounts.index') }}"
            class="relative flex items-center px-3 py-2 my-1 rounded-md font-medium transition"
            :class="[
                window.location.pathname.includes('/chart-of-accounts') || 
