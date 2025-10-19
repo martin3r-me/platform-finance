@@ -36,7 +36,7 @@
                collapsed ? 'justify-center' : 'gap-3'
            ]"
            wire:navigate>
-            <x-heroicon-o-credit-card class="w-6 h-6 flex-shrink-0"/>
+            <x-heroicon-o-banknotes class="w-6 h-6 flex-shrink-0"/>
             <span x-show="!collapsed" class="truncate">Konten</span>
         </a>
 
@@ -52,7 +52,7 @@
                collapsed ? 'justify-center' : 'gap-3'
            ]"
            wire:navigate>
-            <x-heroicon-o-arrow-right-left class="w-6 h-6 flex-shrink-0"/>
+            <x-heroicon-o-arrow-path class="w-6 h-6 flex-shrink-0"/>
             <span x-show="!collapsed" class="truncate">Transaktionen</span>
         </a>
 
@@ -84,7 +84,7 @@
                collapsed ? 'justify-center' : 'gap-3'
            ]"
            wire:navigate>
-            <x-heroicon-o-document-text class="w-6 h-6 flex-shrink-0"/>
+            <x-heroicon-o-document class="w-6 h-6 flex-shrink-0"/>
             <span x-show="!collapsed" class="truncate">Berichte</span>
         </a>
     </div>
@@ -101,7 +101,7 @@
                    'text-[color:var(--ui-secondary)] hover:bg-[color:var(--ui-primary-5)] hover:text-[color:var(--ui-primary)]'
                ]"
                wire:navigate>
-                <x-heroicon-o-arrow-right-left class="w-6 h-6 flex-shrink-0"/>
+                <x-heroicon-o-arrow-path class="w-6 h-6 flex-shrink-0"/>
                 <span class="truncate">{{ $transaction->description ?? 'Transaktion' }}</span>
             </a>
         @endforeach

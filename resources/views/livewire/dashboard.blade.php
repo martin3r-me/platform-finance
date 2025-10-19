@@ -11,13 +11,13 @@
                     <div class="space-y-2">
                         <x-ui-button variant="secondary" size="sm" href="#" wire:navigate class="w-full">
                             <span class="flex items-center gap-2">
-                                @svg('heroicon-o-credit-card','w-4 h-4')
+                                @svg('heroicon-o-banknotes','w-4 h-4')
                                 Konten verwalten
                             </span>
                         </x-ui-button>
                         <x-ui-button variant="secondary" size="sm" href="#" wire:navigate class="w-full">
                             <span class="flex items-center gap-2">
-                                @svg('heroicon-o-arrow-right-left','w-4 h-4')
+                                @svg('heroicon-o-arrow-path','w-4 h-4')
                                 Transaktion erstellen
                             </span>
                         </x-ui-button>
@@ -54,7 +54,7 @@
     <x-ui-page-container>
         <!-- Haupt-Statistiken -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-            <x-ui-dashboard-tile title="Alle Konten" :count="$this->totalAccounts" icon="credit-card" variant="primary" size="lg" href="#" />
+            <x-ui-dashboard-tile title="Alle Konten" :count="$this->totalAccounts" icon="banknotes" variant="primary" size="lg" href="#" />
             <x-ui-dashboard-tile title="Aktive Konten" :count="$this->activeAccounts" icon="check-circle" variant="success" size="lg" />
         </div>
 
@@ -65,7 +65,7 @@
                     <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-8 h-8 rounded-lg bg-[var(--ui-muted-5)] border border-[var(--ui-border)]/60 flex items-center justify-center text-xs font-semibold text-[var(--ui-secondary)]">
-                                @svg('heroicon-o-credit-card','w-4 h-4')
+                                @svg('heroicon-o-banknotes','w-4 h-4')
                             </div>
                             <div class="min-w-0">
                                 <div class="font-medium text-[var(--ui-secondary)] truncate">Girokonto</div>
@@ -79,7 +79,7 @@
                     <div class="group flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)]/60 bg-[var(--ui-surface)] hover:border-[var(--ui-primary)]/60 hover:bg-[var(--ui-primary-5)] transition-colors">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-8 h-8 rounded-lg bg-[var(--ui-muted-5)] border border-[var(--ui-border)]/60 flex items-center justify-center text-xs font-semibold text-[var(--ui-secondary)]">
-                                @svg('heroicon-o-currency-dollar','w-4 h-4')
+                                @svg('heroicon-o-banknotes','w-4 h-4')
                             </div>
                             <div class="min-w-0">
                                 <div class="font-medium text-[var(--ui-secondary)] truncate">Sparkonto</div>
