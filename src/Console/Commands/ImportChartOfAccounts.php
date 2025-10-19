@@ -69,9 +69,12 @@ class ImportChartOfAccounts extends Command
         while (($row = fgetcsv($handle, 0, ';')) !== false) {
             if (count($row) < 4) continue;
 
+            $numberFrom = str_replace(' ', '', trim($row[0]));
+            $numberTo = trim($row[1]) ? str_replace(' ', '', trim($row[1])) : null;
+            
             $data[] = [
-                'number_from' => trim($row[0]),
-                'number_to' => trim($row[1]) ?: null,
+                'number_from' => str_pad($numberFrom, 6, '0', STR_PAD_LEFT),
+                'number_to' => $numberTo ? str_pad($numberTo, 6, '0', STR_PAD_LEFT) : null,
                 'account_type' => trim($row[2]), // S/K/I
                 'name' => trim($row[3]),
                 'additional_type' => trim($row[4]) ?: null,
