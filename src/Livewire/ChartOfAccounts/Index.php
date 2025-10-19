@@ -21,17 +21,17 @@ class Index extends Component
         'onlyActive' => ['except' => true],
     ];
 
-    public function updatingSearch(): void
+    public function updatedSearch(): void
     {
         $this->resetPage();
     }
 
-    public function updatingAccountTypeId(): void
+    public function updatedAccountTypeId(): void
     {
         $this->resetPage();
     }
 
-    public function updatingOnlyActive(): void
+    public function updatedOnlyActive(): void
     {
         $this->resetPage();
     }

@@ -7,22 +7,28 @@
         <x-ui-page-sidebar title="Filter" width="w-80" :defaultOpen="true" side="left">
             <div class="p-6 space-y-6">
                 <div class="space-y-2">
-                    <x-ui-input
-                        wire:model.debounce.400ms="search"
-                        placeholder="Suchen (Nummer, Name, Kategorie)"
-                        icon="heroicon-o-magnifying-glass"
+                    <x-ui-input-text 
+                        name="search" 
+                        placeholder="Suchen (Nummer, Name, Kategorie)" 
+                        class="w-full" 
+                        size="sm" 
                     />
 
-                    <x-ui-select wire:model="accountTypeId" placeholder="Alle Kontenarten">
-                        <x-slot:options>
-                            <option value="">Alle Kontenarten</option>
-                            @foreach($this->accountTypes as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }} ({{ $type->code }})</option>
-                            @endforeach
-                        </x-slot:options>
-                    </x-ui-select>
+                    <x-ui-input-select 
+                        name="accountTypeId" 
+                        label="Kontenart" 
+                        :options="$this->accountTypes" 
+                        optionValue="id" 
+                        optionLabel="name" 
+                        :nullable="true" 
+                        nullLabel="Alle Kontenarten" 
+                        size="sm" 
+                    />
 
-                    <x-ui-toggle wire:model="onlyActive" label="Nur aktive Konten" />
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" wire:model="onlyActive" id="onlyActive" class="rounded">
+                        <label for="onlyActive" class="text-sm text-[var(--ui-secondary)]">Nur aktive Konten</label>
+                    </div>
                 </div>
             </div>
         </x-ui-page-sidebar>
